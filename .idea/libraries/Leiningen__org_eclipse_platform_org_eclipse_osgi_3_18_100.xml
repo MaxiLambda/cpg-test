@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.eclipse.platform/org.eclipse.osgi:3.18.100">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/platform/org.eclipse.osgi/3.18.100/org.eclipse.osgi-3.18.100.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

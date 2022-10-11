@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: de.fraunhofer.aisec/cpg-core:4.6.3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/fraunhofer/aisec/cpg-core/4.6.3/cpg-core-4.6.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

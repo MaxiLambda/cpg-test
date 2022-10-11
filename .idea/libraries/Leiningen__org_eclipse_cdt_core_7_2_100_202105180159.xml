@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.eclipse.cdt/core:7.2.100.202105180159">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/cdt/core/7.2.100.202105180159/core-7.2.100.202105180159.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

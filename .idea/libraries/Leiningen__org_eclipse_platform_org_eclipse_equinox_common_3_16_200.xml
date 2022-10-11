@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.eclipse.platform/org.eclipse.equinox.common:3.16.200">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/platform/org.eclipse.equinox.common/3.16.200/org.eclipse.equinox.common-3.16.200.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

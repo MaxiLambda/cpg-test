@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: com.github.javaparser/javaparser-symbol-solver-core:3.24.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/javaparser/javaparser-symbol-solver-core/3.24.2/javaparser-symbol-solver-core-3.24.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
