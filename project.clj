@@ -7,4 +7,6 @@
                  [org.clojure/clojure "1.11.1"]
                  [de.fraunhofer.aisec/cpg-core "4.6.3"]
                  ]
-  :repl-options {:init-ns cpg-test.core})
+  :repl-options {:init-ns cpg-test.core}
+  :resource-paths ["local-repo/core-7.2.100.202105180159.jar"]
+  )
