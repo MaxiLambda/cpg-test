@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: org.opencypher/util-9.0:9.0.20210312">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/opencypher/util-9.0/9.0.20210312/util-9.0-9.0.20210312.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -1,15 +1,16 @@
 (ns cpg-test.core
     (:import [de.fraunhofer.aisec.cpg TranslationConfiguration TranslationManager]
-             [de.fraunhofer.aisec.cpg.graph GraphKt]
-             (java.io File)
-             (java.util List)))
+             [java.io File]
+             [de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator]
+             [de.fraunhofer.aisec.cpg.helpers SubgraphWalker]
+             [de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression]))
 
 (defn analyse
     "Entry Point to Analyse example file"
     []
     (let [
           config (-> (TranslationConfiguration/builder)
-                     (.sourceLocations (List/of (File. "C:\\Users\\Maxi\\IdeaProjects\\cpg-maven-test\\src\\main\\java\\root\\Main.java")))
+                     (.sourceLocations (java.util.List/of (File. "C:\\Users\\Maxi\\IdeaProjects\\analyse-project\\src\\root\\main")))
                      (.defaultPasses)
                      (.defaultLanguages)
                      (.build))
@@ -17,9 +18,21 @@
                        (.config config)
                        (.build))
           result (.get (.analyze analyzer))
-          originCPG (GraphKt/getGraph result)
-          nodes (.getNodes originCPG)
+          applicationNode (-> result
+                              (.getAstChildren)
+                              (.get 0))
+          evaluator (MultiValueEvaluator.)
+          nodes (SubgraphWalker/flattenAST applicationNode)
           ]
         (doseq [node nodes]
-            (prn node))
+            (if (instance? CallExpression node)
+                (do
+                    (prn "Node: " node)
+                    (prn "Name:" (.getFqn node))
+                    (doseq [arg (.getArguments node)]
+                        (prn arg)
+                        (prn (.evaluate evaluator arg)))
+                    )))
         ))
+
+(defn -main [] (analyse))

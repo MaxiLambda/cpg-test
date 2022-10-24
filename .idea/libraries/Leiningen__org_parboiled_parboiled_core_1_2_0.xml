@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: org.parboiled/parboiled-core:1.2.0">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/parboiled/parboiled-core/1.2.0/parboiled-core-1.2.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
