@@ -4,40 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf1deac1-19a7-4b43-b936-d8dd4e8f76a6" name="Changes" comment="added eclipse cdt core.jar to project">
-      <change afterPath="$PROJECT_DIR$/.idea/google-java-format.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__de_fraunhofer_aisec_cpg_analysis_5_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_7_10.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_7_10.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_slf4j_slf4j_api_2_0_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_core_jackson_annotations_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_core_jackson_annotations_2_13_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_core_jackson_core_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_core_jackson_core_2_13_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_core_jackson_databind_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_core_jackson_databind_2_13_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_module_jackson_module_kotlin_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_fasterxml_jackson_module_jackson_module_kotlin_2_13_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_github_javaparser_javaparser_core_3_24_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_github_javaparser_javaparser_core_3_24_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_github_javaparser_javaparser_symbol_solver_core_3_24_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_github_javaparser_javaparser_symbol_solver_core_3_24_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__de_fraunhofer_aisec_cpg_core_4_6_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__de_fraunhofer_aisec_cpg_core_5_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__io_github_classgraph_classgraph_4_8_147.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__io_github_classgraph_classgraph_4_8_149.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_api_2_17_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_api_2_18_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_core_2_17_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_core_2_18_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_slf4j18_impl_2_17_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_slf4j18_impl_2_18_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_javassist_javassist_3_28_0_GA.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_javassist_javassist_3_29_0_GA.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_annotations_13_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_annotations_23_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_reflect_1_7_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_reflect_1_7_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_1_7_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_1_7_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_common_1_7_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_common_1_7_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_neo4j_neo4j_ogm_api_3_2_35.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_neo4j_neo4j_ogm_api_3_2_37.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_neo4j_neo4j_ogm_core_3_2_35.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_neo4j_neo4j_ogm_core_3_2_37.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_opencypher_ast_9_0_9_0_20210312.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_opencypher_expressions_9_0_9_0_20210312.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_opencypher_parser_9_0_9_0_20210312.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_opencypher_util_9_0_9_0_20210312.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_parboiled_parboiled_core_1_2_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_parboiled_parboiled_scala_2_12_1_2_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_scala_lang_scala_library_2_12_15.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_slf4j_jul_to_slf4j_1_7_36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_slf4j_jul_to_slf4j_2_0_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_slf4j_slf4j_api_1_7_36.xml" beforeDir="false" />
+    <list default="true" id="cf1deac1-19a7-4b43-b936-d8dd4e8f76a6" name="Changes" comment="removed duplicate jar">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_github_javaparser_javaparser_core_3_24_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__com_github_javaparser_javaparser_symbol_solver_core_3_24_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__de_fraunhofer_aisec_cpg_analysis_5_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__de_fraunhofer_aisec_cpg_core_5_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_api_2_18_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_core_2_18_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_apache_logging_log4j_log4j_slf4j18_impl_2_18_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_javassist_javassist_3_29_0_GA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_reflect_1_7_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_1_7_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_common_1_7_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_7_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_7_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_slf4j_jul_to_slf4j_2_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Leiningen__org_slf4j_slf4j_api_2_0_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cpg-test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/cpg-test.iml" afterDir="false" />
@@ -48,6 +32,28 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/cpg-clojure">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="cpg-clojure" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -73,8 +79,11 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Maxi/.m2/repository/de/fraunhofer/aisec/cpg-core/5.0.0/cpg-core-5.0.0-sources.jar&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Maxi/clojure/cpg-test/cpg-clojure&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.38965517&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -91,7 +100,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="ReplState" timestamp="1666541502714">{:repl-history {:ide [], :local [{:command &quot;(seq (java.util.List/of 1 2 3))&quot;, :offset 31, :ns &quot;cpg-test.core&quot;} {:command &quot; (+ (seq (java.util.List/of 1 2 3)))&quot;, :offset 4, :ns &quot;cpg-test.core&quot;} {:command &quot;(apply [+ [1 2]])&quot;, :offset 14, :ns &quot;cpg-test.core&quot;} {:command &quot;(doc +)&quot;, :offset 6, :ns &quot;cpg-test.core&quot;} {:command &quot;(doc apply\n     )&quot;, :offset 16, :ns &quot;cpg-test.core&quot;} {:command &quot;(apply [+ (java.util.List/of 1 2 4)])&quot;, :offset 10, :ns &quot;cpg-test.core&quot;} {:command &quot;(apply + (java.util.List/of 1 2 4))&quot;, :offset 34, :ns &quot;cpg-test.core&quot;} {:command &quot;(java.util.List/of 1 2 4)&quot;, :offset 25, :ns &quot;cpg-test.core&quot;}], :remote []}}</component>
+  <component name="ReplState" timestamp="1667472748641">{:repl-history {:ide [], :local [{:command &quot;(seq (java.util.List/of 1 2 3))&quot;, :offset 31, :ns &quot;cpg-test.core&quot;} {:command &quot; (+ (seq (java.util.List/of 1 2 3)))&quot;, :offset 4, :ns &quot;cpg-test.core&quot;} {:command &quot;(apply [+ [1 2]])&quot;, :offset 14, :ns &quot;cpg-test.core&quot;} {:command &quot;(doc +)&quot;, :offset 6, :ns &quot;cpg-test.core&quot;} {:command &quot;(doc apply\n     )&quot;, :offset 16, :ns &quot;cpg-test.core&quot;} {:command &quot;(apply [+ (java.util.List/of 1 2 4)])&quot;, :offset 10, :ns &quot;cpg-test.core&quot;} {:command &quot;(apply + (java.util.List/of 1 2 4))&quot;, :offset 34, :ns &quot;cpg-test.core&quot;} {:command &quot;(java.util.List/of 1 2 4)&quot;, :offset 25, :ns &quot;cpg-test.core&quot;} {:command &quot;(nil? null)&quot;, :offset 10, :ns &quot;cpg-test.core&quot;}], :remote []}}</component>
   <component name="RunManager" selected="Clojure Application.cpg-test.core">
     <configuration default="true" type="Babashka" factoryName="BabashkaLocalRepl" activateToolWindowBeforeRun="false">
       <setting name="displayName" value="" />
@@ -200,6 +209,19 @@
       <workItem from="1665997047172" duration="7000" />
       <workItem from="1666530222918" duration="15000" />
       <workItem from="1666530257353" duration="4552000" />
+      <workItem from="1666591716088" duration="201000" />
+      <workItem from="1666625360965" duration="1203000" />
+      <workItem from="1666627185801" duration="1129000" />
+      <workItem from="1667214071135" duration="6531000" />
+      <workItem from="1667464859250" duration="1786000" />
+      <workItem from="1667467095132" duration="5087000" />
+      <workItem from="1667472783742" duration="1294000" />
+      <workItem from="1667485480736" duration="61000" />
+      <workItem from="1667486095624" duration="659000" />
+      <workItem from="1667562584472" duration="3942000" />
+      <workItem from="1667747649673" duration="1502000" />
+      <workItem from="1667845348456" duration="58000" />
+      <workItem from="1667845422750" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1665503714631</created>
@@ -215,7 +237,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665594390087</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="initial commit">
+      <created>1666591760100</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666591760100</updated>
+    </task>
+    <task id="LOCAL-00004" summary="removed duplicate jar">
+      <created>1666591908855</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666591908855</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -230,8 +266,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial commit" />
     <MESSAGE value="added eclipse cdt core.jar to project" />
-    <option name="LAST_COMMIT_MESSAGE" value="added eclipse cdt core.jar to project" />
+    <MESSAGE value="initial commit" />
+    <MESSAGE value="removed duplicate jar" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed duplicate jar" />
   </component>
 </project>
