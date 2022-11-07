@@ -1,0 +1,3 @@
+[submodule "cpg-clojure"]
+	path = cpg-clojure
+	url = https://github.com/MaximilianLincks/cpg-clojure.git
