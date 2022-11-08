@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: org.neo4j/neo4j-ogm-api:3.2.37">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/neo4j/neo4j-ogm-api/3.2.37/neo4j-ogm-api-3.2.37.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
