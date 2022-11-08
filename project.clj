@@ -11,6 +11,5 @@
   :repl-options {:init-ns cpg-test.core}
   :resource-paths [
                    "local-repo/core-7.2.100.202105180159.jar"
-                   "cpg-clojure/build/classes/kotlin/main"
                    ]
   )

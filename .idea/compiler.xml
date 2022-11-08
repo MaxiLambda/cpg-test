@@ -18,9 +18,12 @@
       <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <bytecodeTargetLevel>
+      <module name="cpg-clojure" target="17" />
       <module name="cpg-clojure.main" target="11" />
       <module name="cpg-clojure.test" target="11" />
       <module name="cpg-test" target="1.5" />
+      <module name="lincks.maximilian.cpg-clojure.main" target="17" />
+      <module name="lincks.maximilian.cpg-clojure.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
