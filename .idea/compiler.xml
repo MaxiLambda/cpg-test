@@ -4,6 +4,8 @@
     <wildcardResourcePatterns>
       <entry name="!core-7.2.100.202105180159.jar:*" />
       <entry name="!dev-resources:*" />
+      <entry name="!main:*" />
+      <entry name="!cpg-clojure-1.0-SNAPSHOT.jar:*" />
       <entry name="!resources:*" />
       <entry name="!?*.java" />
       <entry name="!?*.form" />
@@ -16,7 +18,6 @@
       <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <bytecodeTargetLevel>
-      <module name="cpg-clojure" target="11" />
       <module name="cpg-clojure.main" target="11" />
       <module name="cpg-clojure.test" target="11" />
       <module name="cpg-test" target="1.5" />

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cpg-clojure.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cpg-clojure.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cpg-clojure.test.iml" filepath="$PROJECT_DIR$/.idea/modules/cpg-clojure.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/cpg-test.iml" filepath="$PROJECT_DIR$/cpg-test.iml" />
     </modules>
   </component>

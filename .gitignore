@@ -13,3 +13,4 @@ pom.xml.asc
 
 /.idea
 /cpg-neo4j.bat
+/.idea/
