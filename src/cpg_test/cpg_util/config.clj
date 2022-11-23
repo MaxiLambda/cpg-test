@@ -36,13 +36,9 @@
                               (.get 0))
           evaluator (MultiValueEvaluator.)
           nodes (SubgraphWalker/flattenAST applicationNode)
+          sinks (filter (every-pred #(instance? CallExpression %) (is-sink?)) nodes)
           ]
-        (doseq [node nodes]
-            (if (every-pred
-                    #(instance? CallExpression %)
-                    is-sink?)
-                (do
-                    (prn "Name:" (.getFqn node))
-                    (doseq [arg (.getArguments node)]
-                        (prn (.evaluate evaluator arg)))
-                    )))))
+        (doseq [sink sinks]
+            (prn "Name:" (.getFqn sink))
+            (doseq [arg (.getArguments sink)]
+                (prn (.evaluate evaluator arg))))))
