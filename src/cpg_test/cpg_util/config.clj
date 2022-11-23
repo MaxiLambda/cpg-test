@@ -6,9 +6,9 @@
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
+             (de.fraunhofer.aisec.cpg.query QueryKt)
              (java.io File)
-             (java.util List)
-             (de.fraunhofer.aisec.cpg.query QueryKt)))
+             (java.util List)))
 
 (defn get-config [^String file]
     (-> (TranslationConfiguration/builder)
