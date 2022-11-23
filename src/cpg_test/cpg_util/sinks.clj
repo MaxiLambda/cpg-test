@@ -19,5 +19,5 @@
             (not (nil? fqn))
             (str/ends-with? fqn load-class-function-name))))
 
-(defn is-sink? []
-    (some-fn is-for-name-call? is-load-class-call?))
+(defn is-sink? [^CallExpression call-expression]
+    ((some-fn is-for-name-call? is-load-class-call?) call-expression))
