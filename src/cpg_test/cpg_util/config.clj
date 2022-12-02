@@ -1,9 +1,10 @@
 (ns cpg-test.cpg-util.config
-    (:require [cpg-test.cpg-util.sinks :refer :all])
+    (:require [cpg-test.cpg-util.sinks :refer :all]
+              [cpg-test.cpg-util.traversal :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationConfiguration TranslationManager TranslationResult)
              (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
-             (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
+             (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression StaticCallExpression MemberCallExpression Literal)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.io File)
              (java.util List)))
@@ -44,4 +45,12 @@
             (doseq [sink sinks]
                 (prn "Name:" (.getFqn sink))
                 (doseq [arg (.getArguments sink)]
-                    (prn (.evaluate evaluator arg)))))))
+                    (let [evaluated-arg (.evaluate evaluator arg)]
+                        (do
+                            (prn evaluated-arg "---" (class evaluated-arg))
+                            (if (instance? String evaluated-arg)
+                                (prn evaluated-arg)
+                                ;(prn "Test")
+                                (doseq [traversed-arg (traverse-on-till arg [StaticCallExpression MemberCallExpression Literal] next-nodes-dfg)]
+                                    (prn (.evaluate evaluator traversed-arg)))
+                                ))))))))
