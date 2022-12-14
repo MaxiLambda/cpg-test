@@ -8,20 +8,27 @@
     end-types - one of the possible Classes of the last Node to find
     next-node-function - a function which takes a node and returns a List of nodes (in Java Function<Node, Iterable<Node>>)
     "
-    [^Node start end-types next-nodes-function]
+    ([^Node start end-types next-nodes-function] (traverse-on-till start end-types next-nodes-function 20))
+    ([^Node start end-types next-nodes-function max-depth]
     (loop [^Node to-do-nodes [start]
            result []
-           depth 0]
+           depth 0
+           visited #{}]
         (do
-            ;(prn "To-Do:" to-do-nodes)
-            ;(prn "Result:" result)
-
+            ;(prn "To-Do:" (count to-do-nodes) to-do-nodes)
+            ;(prn "Result:" (count result) result)
+            ;(prn "Visited:" (count visited) visited)
             (let [[current & remaining] to-do-nodes]
-                (if (or (= depth 20) (empty? to-do-nodes))
+                ;check if max-depth is reached or if there are no more nodes left to visit
+                (if (or (= depth max-depth) (empty? to-do-nodes))
                     result
-                    (if (some #(instance? % current) end-types)
-                        (recur remaining (conj result current) (+ depth 1))
-                        (recur (concat remaining (next-nodes-function current)) result (+ depth 1))))))))
+                    ;check if the current node has already been visited
+                    (if (contains? visited current)
+                        (recur remaining result depth visited)
+                        ;check if the current node is one of the final types
+                        (if (some #(instance? % current) end-types)
+                            (recur remaining (conj result current) (+ depth 1) (conj visited current))
+                            (recur (concat remaining (next-nodes-function current)) result (+ depth 1) (conj visited current))))))))))
 
 (defn next-nodes-dfg
     [^Node node]

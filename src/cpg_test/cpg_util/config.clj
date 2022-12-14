@@ -45,12 +45,12 @@
             (doseq [sink sinks]
                 (prn "Name:" (.getFqn sink))
                 (doseq [arg (.getArguments sink)]
+                    ;evaluated-arg can be a string or a hash-set
                     (let [evaluated-arg (.evaluate evaluator arg)]
                         (do
                             (prn evaluated-arg "---" (class evaluated-arg))
+                            ;strings are the only valid objects because all class-loading sinks take one string as an argument
                             (if (instance? String evaluated-arg)
-                                (prn evaluated-arg)
-                                ;(prn "Test")
-                                (doseq [traversed-arg (traverse-on-till arg [StaticCallExpression MemberCallExpression Literal] next-nodes-dfg)]
-                                    (prn (.evaluate evaluator traversed-arg)))
-                                ))))))))
+                                (prn "###" evaluated-arg)
+                                (doseq [traversed-arg (traverse-on-till arg [StaticCallExpression MemberCallExpression Literal] next-nodes-dfg 50)]
+                                    (prn evaluated-arg "+" (.evaluate evaluator traversed-arg) (class traversed-arg)))))))))))
