@@ -4,7 +4,7 @@
     (:import (de.fraunhofer.aisec.cpg TranslationConfiguration TranslationManager TranslationResult)
              (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
-             (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression StaticCallExpression MemberCallExpression Literal)
+             (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression Literal)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.io File)
              (java.util List)))
@@ -25,6 +25,11 @@
 (defn get-translation-result [^TranslationManager analyzer]
     (.get (.analyze analyzer)))
 
+(defmulti print-handler type)
+(defmethod print-handler Literal [node]
+    "++")
+(defmethod print-handler CallExpression [node]
+    (str "+" (.hashCode node) "*" (.getName node) "+"))
 (defn analyse
     "Entry Point to Analyse example file"
     [^String file]
@@ -50,7 +55,6 @@
                         (do
                             (prn evaluated-arg "---" (class evaluated-arg))
                             ;strings are the only valid objects because all class-loading sinks take one string as an argument
-                            (if (instance? String evaluated-arg)
-                                (prn "###" evaluated-arg)
-                                (doseq [traversed-arg (traverse-on-till arg [StaticCallExpression MemberCallExpression Literal] next-nodes-dfg 50)]
-                                    (prn evaluated-arg "+" (.evaluate evaluator traversed-arg) (class traversed-arg)))))))))))
+                            (doseq [traversed-arg (traverse-on-till arg [CallExpression Literal] next-nodes-dfg 50)]
+                                (prn evaluated-arg (print-handler traversed-arg) (.evaluate evaluator traversed-arg) (class traversed-arg))))))))))
+
