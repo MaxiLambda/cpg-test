@@ -1,13 +1,14 @@
 (ns cpg-test.cpg-util.config
     (:require [cpg-test.cpg-util.sinks :refer :all]
-              [cpg-test.cpg-util.traversal :refer :all])
+              [cpg-test.cpg-util.traversal :refer :all]
+              [cpg-test.cpg-util.regex-creation :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationConfiguration TranslationManager TranslationResult)
              (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression Literal)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.io File)
-             (java.util List)))
+             (java.util List Set)))
 
 (defn get-config [^String file]
     (-> (TranslationConfiguration/builder)
@@ -28,10 +29,10 @@
 (defn renameCallExpression "Renames a given CallExpression" [^CallExpression ex]
     (.setName ex (str (.getName ex) "+" (.hashCode ex))))
 
-(defmulti print-handler type)
-(defmethod print-handler Literal [node]
-    (str "+" (.getValue node) "+"))
-(defmethod print-handler CallExpression [node]
+(defmulti print-handler (fn [node arg] (type node)))
+(defmethod print-handler Literal [node arg]
+    (str "+" (.getName arg) "+"))
+(defmethod print-handler CallExpression [node arg]
     (str "+" (.getName node) "+"))
 
 ; some CallExpressions have invokes Edges
@@ -39,6 +40,48 @@
 ; <Expression to evaluate> is the expression which can be tried to evaluate
 (defn expr-invokes "Returns the FunctionDeclaration invoked by the CallExpression" [^CallExpression expr]
     (.getInvokes expr))
+
+;todo
+(defn is-external-sink? "checks if a CallExpression is an external sink" [^CallExpression sink]
+    false)
+
+(defn analyse-args
+    "
+    Takes a sink and returns a tuple/list of (<Possible classloading Call arguments>) = (HashSet<String>, )
+    "
+    [^MultiValueEvaluator evaluator ^CallExpression sink ]
+    (if (is-external-sink? sink)
+        #{}    ;todo
+        (as->
+            ;returns single element list because only forName(x) and loadClass(x) have to be considered here
+            (first (.getArguments sink)) n
+            (.evaluate evaluator n)
+            ;is always a Set<String>
+            (if (instance? Set n) n #{n})))
+    )
+
+;(defn inter-proc-resolution)
+
+;when defined, remember to remove old HashCode from CallExpression Name (which was added in the rename operation)
+
+(defn analyse-sink "Analyses a given Sink (CallExpression)" [^MultiValueEvaluator evaluator ^CallExpression sink]
+    (do
+        ;printing todo remove printing
+        (prn "Name:" (.getFqn sink))
+        (doseq [arg (.getArguments sink)]
+            ;evaluated-arg can be a string or a hash-set
+            (let [evaluated-arg (.evaluate evaluator arg)]
+                (do
+                    (prn evaluated-arg "---" (class evaluated-arg))
+                    ;strings are the only valid objects because all class-loading sinks take one string as an argument
+                    (doseq [traversed-arg (traverse-on-till arg [CallExpression] next-nodes-dfg 50)]
+                        (prn evaluated-arg (.getName arg) "-" (.evaluate evaluator traversed-arg) (class traversed-arg))))))
+        ;calculate
+        (prn (analyse-args evaluator sink))
+        ;todo call possible-loads-to-predicate with the result of analyse-args
+        ;todo add method to generate additional information
+        ))
+
 (defn analyse
     "Entry Point to Analyse example file"
     [^String file]
@@ -55,18 +98,13 @@
           sinks (filter is-sink? call-expressions)
           ]
         (do
+            ;sinks is evaluated lazily, therefore call it before checking wi
+            (doseq [sink sinks]
+                (prn sink))
             ;rename CallExpressions
             (doseq [expr call-expressions]
                 (renameCallExpression expr))
-            (prn "Sinks:")
+            ;(prn "Sinks:")
             (doseq [sink sinks]
-                (prn "Name:" (.getFqn sink))
-                (doseq [arg (.getArguments sink)]
-                    ;evaluated-arg can be a string or a hash-set
-                    (let [evaluated-arg (.evaluate evaluator arg)]
-                        (do
-                            (prn evaluated-arg "---" (class evaluated-arg))
-                            ;strings are the only valid objects because all class-loading sinks take one string as an argument
-                            (doseq [traversed-arg (traverse-on-till arg [Literal CallExpression] next-nodes-dfg 50)]
-                                (prn evaluated-arg (print-handler traversed-arg) (.evaluate evaluator traversed-arg) (class traversed-arg))))))))))
+                (analyse-sink evaluator sink)))))
 
