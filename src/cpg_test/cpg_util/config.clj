@@ -25,11 +25,20 @@
 (defn get-translation-result [^TranslationManager analyzer]
     (.get (.analyze analyzer)))
 
+(defn renameCallExpression "Renames a given CallExpression" [^CallExpression ex]
+    (.setName ex (str (.getName ex) "+" (.hashCode ex))))
+
 (defmulti print-handler type)
 (defmethod print-handler Literal [node]
-    "++")
+    (str "+" (.getValue node) "+"))
 (defmethod print-handler CallExpression [node]
-    (str "+" (.hashCode node) "*" (.getName node) "+"))
+    (str "+" (.getName node) "+"))
+
+; some CallExpressions have invokes Edges
+; (CallExpression)-invokes-> (FunctionDeclaration) <- DFG- (ReturnStatement) <- Return_Value- (<Expression to Evaluate>)
+; <Expression to evaluate> is the expression which can be tried to evaluate
+(defn expr-invokes "Returns the FunctionDeclaration invoked by the CallExpression" [^CallExpression expr]
+    (.getInvokes expr))
 (defn analyse
     "Entry Point to Analyse example file"
     [^String file]
@@ -46,6 +55,9 @@
           sinks (filter is-sink? call-expressions)
           ]
         (do
+            ;rename CallExpressions
+            (doseq [expr call-expressions]
+                (renameCallExpression expr))
             (prn "Sinks:")
             (doseq [sink sinks]
                 (prn "Name:" (.getFqn sink))
@@ -55,6 +67,6 @@
                         (do
                             (prn evaluated-arg "---" (class evaluated-arg))
                             ;strings are the only valid objects because all class-loading sinks take one string as an argument
-                            (doseq [traversed-arg (traverse-on-till arg [CallExpression Literal] next-nodes-dfg 50)]
+                            (doseq [traversed-arg (traverse-on-till arg [Literal CallExpression] next-nodes-dfg 50)]
                                 (prn evaluated-arg (print-handler traversed-arg) (.evaluate evaluator traversed-arg) (class traversed-arg))))))))))
 
