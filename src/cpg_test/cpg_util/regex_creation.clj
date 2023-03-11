@@ -28,6 +28,10 @@
             (-> remainder
                 (str/replace #"[$.]" "\\\\$0")
                 (str/replace #"\?" ".*")
+                ;this function is used for debugging only
+                ((fn [s] (do
+                             (prn s)
+                             s)))
                 Pattern/compile))))
 
 (defn possible-loads-to-predicate
@@ -37,6 +41,4 @@
     Returns a list of Predicates
     "
     [possibilities resolution]
-    (reduce #(.or %1 %2) (map #(.asMatchPredicate (to-regex %1 resolution)) possibilities))
-
-    )
+    (reduce #(.or %1 %2) (map #(.asMatchPredicate (to-regex %1 resolution)) possibilities)))
