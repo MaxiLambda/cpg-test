@@ -6,7 +6,8 @@
               [cpg-test.cpg-util.util :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
-             (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
+             (de.fraunhofer.aisec.cpg.graph.statements ReturnStatement)
+             (de.fraunhofer.aisec.cpg.graph.statements.expressions BinaryOperator CallExpression Expression)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.util Set)))
 
@@ -17,6 +18,13 @@
 (defmulti resolve-node (fn [_ node] (class node)))
 
 ;"Tries to resolve the return statement of a CallExpression"
+;the following evaluates to "stuff2" instead of <wildcard> or a hashset
+;public static String other(String s){
+;   if(s.length() > 3){
+;       return "stuff";
+;   }
+;   return "stuff2";
+;}
 (defmethod resolve-node CallExpression
     [^MultiValueEvaluator evaluator ^CallExpression expression]
     ;(CallExpression)-invokes-> (FunctionDeclaration) <- DFG- (ReturnStatement) <- RETURN_VALUE - Expression
@@ -28,15 +36,25 @@
          (.getReturnValue)
          (.evaluate evaluator))
     )
+ReturnStatement
+
+(defn dependent-calls
+    "Tries to find all CallExpressions that a List of Nodes may rely on.
+    Returns a list of those expressions"
+    [args]
+    (reduce concat (map #(traverse-on-dfg-till-call-expression %1 20) args)))
 (defn inter-proc-resolution
     "
     tries to resolve arguments inter-procedural
     "
     [^MultiValueEvaluator evaluator ^CallExpression sink]
     (let [args (.getArguments sink)
-          nodes (map #(str "{" (.getName %1) "}") args)
-          values (map #(resolve-node evaluator %1) args)]
-        (zipmap nodes values)))
+          dependent (dependent-calls args)
+          relevant (filter #(instance? CallExpression %1) (distinct (concat dependent args)))
+          nodes (map #(str "{" (.getName %1) "}") relevant)
+          values (map #(resolve-node evaluator %1) relevant)]
+        ;without the vec call the sequence is lazy which leads to a runtime error
+        (into {} (filter #(not (nil? (second %1))) (zipmap nodes values)))))
 
 (defn analyse-args
     "
@@ -84,6 +102,9 @@
         "org.apache.commons:commons-collections"
         "root.my.stuff.something.Abc$ClassName"
         "root.my.stuff2.something.Abc$ClassName"
+         "com.root.Maxi"
+         "de.root.Maxi"
+         "fr.root.Maxi"
          )
     )
 
