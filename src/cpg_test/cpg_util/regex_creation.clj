@@ -1,5 +1,6 @@
 (ns cpg-test.cpg-util.regex-creation
-    (:require [clojure.string :as str])
+    (:require [clojure.string :as str]
+              [cpg-test.cpg-util.util :refer :all])
     (:import (java.util.regex Pattern)))
 
 (defn string-to-pattern
@@ -23,16 +24,17 @@
                   call-pattern (string-to-pattern call)
                   ]
                 (if (contains? resolution call)
-                    (recur (str/replace-first remainder call-pattern (get resolution call)))
+                    (recur (str/replace-first remainder call-pattern (str/re-quote-replacement (get resolution call))))
                     (recur (str/replace-first remainder call-pattern "?"))))
             (-> remainder
                 (str/replace #"[$.]" "\\\\$0")
                 (str/replace #"\?" ".*")
+                Pattern/compile
                 ;this function is used for debugging only
                 ((fn [s] (do
                              (prn s)
-                             s)))
-                Pattern/compile))))
+                             s))))))
+    )
 
 (defn possible-loads-to-predicate
     "
@@ -41,4 +43,4 @@
     Returns a list of Predicates
     "
     [possibilities resolution]
-    (reduce #(.or %1 %2) (map #(.asMatchPredicate (to-regex %1 resolution)) possibilities)))
+    (reduce-preds-with-or (map #(.asMatchPredicate (to-regex %1 resolution)) possibilities)))

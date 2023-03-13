@@ -2,7 +2,8 @@
     (:require [cpg-test.cpg-util.config :refer :all]
               [cpg-test.cpg-util.regex-creation :refer :all]
               [cpg-test.cpg-util.sinks :refer :all]
-              [cpg-test.cpg-util.traversal :refer :all])
+              [cpg-test.cpg-util.traversal :refer :all]
+              [cpg-test.cpg-util.util :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
@@ -10,13 +11,39 @@
              (java.util Set)))
 
 (defn renameCallExpression "Renames a given CallExpression" [^CallExpression ex]
-    (.setName ex (str (.getName ex) "+" (.hashCode ex))))
+    (.setName ex (str (.getName ex) "-" (.hashCode ex))))
+
+;TODO add Operators maybe
+(defmulti resolve-node (fn [_ node] (class node)))
+
+;"Tries to resolve the return statement of a CallExpression"
+(defmethod resolve-node CallExpression
+    [^MultiValueEvaluator evaluator ^CallExpression expression]
+    ;(CallExpression)-invokes-> (FunctionDeclaration) <- DFG- (ReturnStatement) <- RETURN_VALUE - Expression
+    (->> expression
+         (.getInvokes)
+         (first)
+         (.getPrevDFG)
+         (first)
+         (.getReturnValue)
+         (.evaluate evaluator))
+    )
+(defn inter-proc-resolution
+    "
+    tries to resolve arguments inter-procedural
+    "
+    [^MultiValueEvaluator evaluator ^CallExpression sink]
+    (let [args (.getArguments sink)
+          nodes (map #(str "{" (.getName %1) "}") args)
+          values (map #(resolve-node evaluator %1) args)]
+        (zipmap nodes values)))
 
 (defn analyse-args
     "
     Takes a sink and returns a tuple/list of (<Possible classloading Call arguments>) = (HashSet<String>, )
+    Returns a set of strings, which are the possible classloading arguments
     "
-    [^MultiValueEvaluator evaluator ^CallExpression sink ]
+    [^MultiValueEvaluator evaluator ^CallExpression sink]
     (if (is-external-sink? sink)
         #{}    ;todo
         (as->
@@ -24,33 +51,46 @@
             (first (.getArguments sink)) n
             (.evaluate evaluator n)
             ;is always a Set<String>
-            (if (instance? Set n) n #{n})))
+            (if (instance? Set n) n #{n})
+            (do
+                (prn n)
+                n)))
     )
 
-;(defn inter-proc-resolution)
+
 ;when defined, remember to remove old HashCode from CallExpression Name (which was added in the rename operation)
 ;when evaluating
-
-(defn analyse-sink "Analyses a given Sink (CallExpression)" [^MultiValueEvaluator evaluator ^CallExpression sink]
+(defn analyse-sink
+    "
+    Analyses a given Sink (CallExpression).
+    Returns a List<Predicate>.
+    "
+    [^MultiValueEvaluator evaluator ^CallExpression sink]
     (do
-        ;printing todo remove printing
         (prn "Name:" (.getFqn sink))
-        (doseq [arg (.getArguments sink)]
-            ;evaluated-arg can be a string or a hash-set
-            (let [evaluated-arg (.evaluate evaluator arg)]
-                (do
-                    (prn evaluated-arg "---" (class evaluated-arg))
-                    ;strings are the only valid objects because all class-loading sinks take one string as an argument
-                    (doseq [traversed-arg (traverse-on-till arg [CallExpression] next-nodes-dfg 50)]
-                        (prn evaluated-arg (.getName arg) "-" (.evaluate evaluator traversed-arg) (class traversed-arg))))))
         ;calculate
-        (prn (analyse-args evaluator sink))
-        ;todo call possible-loads-to-predicate with the result of analyse-args
-        ;todo add method to generate additional information
-        ))
+        (possible-loads-to-predicate
+            (analyse-args evaluator sink)
+            (inter-proc-resolution evaluator sink))))
+
+(defn get-unused-dependencies
+    "returns a List<String> containing all unused dependencies of the analysed project"
+    []
+    ;todo write function that fetches all unused dependencies
+    ;   maybe pass them as program argument
+    '(
+        "org.apache.commons:commons-lang"
+        "org.apache.commons:commons-text"
+        "org.apache.commons:commons-collections"
+        "root.my.stuff.something.Abc$ClassName"
+        "root.my.stuff2.something.Abc$ClassName"
+         )
+    )
 
 (defn analyse
-    "Entry Point to Analyse example file"
+    "
+    Entry Point to Analyse example file
+    Returns a List<String> of all dependencies which do match any possible sink call"
     [^String file]
     (let [
           config (get-config file)
@@ -65,12 +105,13 @@
           sinks (filter is-sink? call-expressions)
           ]
         (do
-            ;sinks is evaluated lazily, therefore call it before checking wi
-            (doseq [sink sinks]
-                (prn sink))
+            ;sinks is evaluated lazily, therefore call it before checking renaming
+            ;otherwise the sink-checks with fqn do not work
+            (prn "Count sinks:" (count sinks))
             ;rename CallExpressions
             (doseq [expr call-expressions]
                 (renameCallExpression expr))
-            ;(prn "Sinks:")
-            (doseq [sink sinks]
-                (analyse-sink evaluator sink)))))
+            (let [matches-sink-preds (map #(analyse-sink evaluator %) sinks)
+                  matches-any-sink? (reduce-preds-with-or matches-sink-preds)]
+                (prn "Unused deps:"
+                     (filter #(not (.test matches-any-sink? %1)) (get-unused-dependencies)))))))
