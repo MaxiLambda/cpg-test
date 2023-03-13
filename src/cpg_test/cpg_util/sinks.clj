@@ -2,7 +2,9 @@
     (:require [clojure.string :as str])
     (:import (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression MemberCallExpression StaticCallExpression)))
 
-
+;todo
+(defn is-external-sink? "checks if a CallExpression is an external sink" [^CallExpression sink]
+    false)
 (def class-for-name "java.lang.Class.forName")
 
 (defn is-for-name-call?
