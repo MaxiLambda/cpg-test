@@ -1,5 +1,6 @@
 (ns cpg-test.cpg-util.traversal
-    (:import (de.fraunhofer.aisec.cpg.graph Node)))
+    (:import (de.fraunhofer.aisec.cpg.graph Node)
+             (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)))
 
 (defn traverse-on-till
     "
@@ -33,3 +34,7 @@
 (defn next-nodes-dfg
     [^Node node]
     (.getPrevDFG node))
+
+(defn traverse-on-dfg-till-call-expression ""
+    [start max-depth]
+    (traverse-on-till start [CallExpression] next-nodes-dfg max-depth))
