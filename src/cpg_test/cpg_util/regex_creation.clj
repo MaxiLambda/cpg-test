@@ -7,7 +7,20 @@
     "converts a string to the literal pattern"
     [s]
     (-> s Pattern/quote Pattern/compile))
-
+(defn regex-partial-match
+    "takes a regular expression (as an escaped string) describing a dependency and returns a regex match all sub-paths of this expression"
+    [^String regex]
+    (let [parts1 (str/split regex #"\\\.")
+          joined1 (str/join "(\\.(" parts1)
+          parts2 (str/split joined1 #"\.\*")
+          joined2 (str/join "(.*(" parts2)
+          ;todo math
+          closing (reduce str (take (+
+                            (- (* 2 (count parts1)) 1)
+                            (* 2(- (count parts2) 1))) (repeat ")?")))
+          ]
+        (str "^(" joined2 closing "$"))
+    )
 (defn to-regex
     "
     Takes a String of a possible value for class loading, and how to resolve some CallExpression resolutions.
@@ -25,10 +38,14 @@
                   ]
                 (if (contains? resolution call)
                     (recur (str/replace-first remainder call-pattern (str/re-quote-replacement (get resolution call))))
-                    (recur (str/replace-first remainder call-pattern "?"))))
+                    (recur (str/replace-first remainder call-pattern "!"))))
             (-> remainder
                 (str/replace #"[$.]" "\\\\$0")
-                (str/replace #"\?" ".*")
+                (str/replace #"!" ".*")
+                (regex-partial-match)
+                ((fn [s] (do
+                             (prn s)
+                             s)))
                 Pattern/compile
                 ;this function is used for debugging only
                 ((fn [s] (do
