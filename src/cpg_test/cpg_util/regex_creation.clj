@@ -15,9 +15,7 @@
           parts2 (str/split joined1 #"\.\*")
           joined2 (str/join "(.*(" parts2)
           ;todo math
-          closing (reduce str (take (+
-                            (- (* 2 (count parts1)) 1)
-                            (* 2(- (count parts2) 1))) (repeat ")?")))
+          closing (reduce str (take (- (* 2 (+ (count parts1) (count parts2))) 3) (repeat ")?")))
           ]
         (str "^(" joined2 closing "$"))
     )
