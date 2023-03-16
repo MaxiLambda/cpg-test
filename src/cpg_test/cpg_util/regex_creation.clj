@@ -2,7 +2,6 @@
     (:require [clojure.string :as str]
               [cpg-test.cpg-util.util :refer :all])
     (:import (java.util.regex Pattern)))
-
 (defn string-to-pattern
     "converts a string to the literal pattern"
     [s]
@@ -10,13 +9,15 @@
 (defn regex-partial-match
     "takes a regular expression (as an escaped string) describing a dependency and returns a regex match all sub-paths of this expression"
     [^String regex]
-    (let [parts1 (str/split regex #"\\\.")
+    (let [regex2 (str "&" regex "&")
+          parts1 (str/split regex2 #"\\\.")
           joined1 (str/join "(\\.(" parts1)
           parts2 (str/split joined1 #"\.\*")
           joined2 (str/join "(.*(" parts2)
-          closing (reduce str (take (- (* 2 (+ (count parts1) (count parts2))) 3) (repeat ")?")))
-          ]
-        (str "^(" joined2 closing "$"))
+          closing (reduce str (take (- (* 2 (+ (count parts1) (count parts2))) 3) (repeat ")?")))]
+        (-> (str "^(" joined2 closing "$")
+            (str/replace #"&" "")
+            (str/replace #"\(\)\?" "")))
     )
 (defn to-regex
     "
@@ -29,10 +30,8 @@
         (if (str/includes? remainder "{")
             (let [opening-index (str/index-of remainder "{")
                   closing-index (str/index-of remainder "}")
-                  ;
                   call (subs remainder opening-index (+ closing-index 1))
-                  call-pattern (string-to-pattern call)
-                  ]
+                  call-pattern (string-to-pattern call)]
                 (if (contains? resolution call)
                     (recur (str/replace-first remainder call-pattern (str/re-quote-replacement (get resolution call))))
                     (recur (str/replace-first remainder call-pattern "!"))))
@@ -40,14 +39,12 @@
                 (str/replace #"[$.]" "\\\\$0")
                 (str/replace #"!" ".*")
                 (regex-partial-match)
-                ((fn [s] (do
-                             (prn s)
-                             s)))
-                Pattern/compile
+                (Pattern/compile)
                 ;this function is used for debugging only
-                ((fn [s] (do
-                             (prn s)
-                             s))))))
+                ;((fn [s] (do
+                ;             (prn s)
+                ;             s)))
+                )))
     )
 
 (defn possible-loads-to-predicate
