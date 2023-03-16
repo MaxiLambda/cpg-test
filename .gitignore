@@ -14,3 +14,5 @@ pom.xml.asc
 /.idea
 /cpg-neo4j.bat
 /.idea/
+/neo4j.ps1
+/cpg-test.iml

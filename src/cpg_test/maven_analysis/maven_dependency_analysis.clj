@@ -34,7 +34,7 @@
     Executes the dependency:analyze goal. The result is returned as a string.
     "
     [^String path]
-    (strip-mvn-dependency-analyze (:out (sh/sh "scripts/maven-dependency-analyze.bat" path))))
+    (strip-mvn-dependency-analyze (:out (sh/sh "resources/scripts/maven-dependency-analyze.bat" path))))
 
 (def class-pattern #"\[INFO]\s*([a-zA-Z\d._$]*)")
 (def start-classes "[INFO] --- maven-dependency-plugin")
@@ -67,7 +67,7 @@
     Executes the dependency:list-classes -Dartifact=<groupId:artifactId:version> goal.
     "
     [^String path dependency]
-    (strip-mvn-dependency-list (:out (sh/sh "scripts/maven-dependency-list-classes.bat" path dependency)))
+    (strip-mvn-dependency-list (:out (sh/sh "resources/scripts/maven-dependency-list-classes.bat" path dependency)))
     )
 
 (defn potentially-unused-dependencies
