@@ -13,7 +13,6 @@
 (defn renameCallExpression "Renames a given CallExpression" [^CallExpression ex]
     (.setName ex (str (.getName ex) "-" (.hashCode ex))))
 
-;TODO add Operators maybe
 (defmulti resolve-node (fn [_ node] (class node)))
 
 ;"Tries to resolve the return statement of a CallExpression"
@@ -79,7 +78,7 @@
     "
     [^MultiValueEvaluator evaluator ^CallExpression sink]
     (do
-        (prn "Name:" (.getFqn sink))
+        (prn "Sink-Name:" (.getFqn sink))
         ;calculate
         (possible-loads-to-predicate
             (analyse-args evaluator sink)
@@ -109,6 +108,5 @@
             ;otherwise the sink-checks with fqn do not work
             (prn "Count sinks:" (count sinks))
             ;rename CallExpressions
-            (doseq [expr call-expressions]
-                (renameCallExpression expr))
+            (doseq [expr call-expressions] (renameCallExpression expr))
             (fn [class] (.test is-possibly-called class)))))
