@@ -1,16 +1,15 @@
 (ns cpg-test.cpg-util.regex-creation-test
   (:require [clojure.test :refer :all])
-  (:require [cpg-test.cpg-util.regex-creation :refer [regex-partial-match]]))
+  (:require [cpg-test.cpg-util.regex-creation :refer [to-regex]]))
 
-(deftest regex-partial-match-test
-(is (= (regex-partial-match "de\\.root\\.Maxi") "(de(\\.(root(\\.(Maxi)?)?)?)?)?"))
-(is (= (regex-partial-match "de\\..*\\.Maxi") "(de(\\.((.*((\\.(Maxi)?)?)?)?)?)?)?"))
-(is (= (regex-partial-match "de.*Maxi") "(de(.*(Maxi)?)?)?"))
-(is (= (regex-partial-match ".*") "((.*)?)?" ))
-(is (= (regex-partial-match "de\\..*") "(de(\\.((.*)?)?)?)?")))
+(deftest finish-regex-test
+(is (= (to-regex "{}" {}) ".*"))
+(is (= (to-regex "a$b" {}) "a\\$b"))
+(is (= (to-regex "abc.{}de" {}) "abc\\..*de"))
+(is (= (to-regex "a.{test}.c" {"{test}" "b"}) "a\\.b\\.c"))
+(is (= (to-regex "{test}" {}) ".*"))
+(is (= (to-regex "{test}" {"{test}" "{test2}" "{test2}" "abc"}) "abc"))
+;TODO
+;(is (= (to-regex "{test}" {"{test}" "{test}"}) ".*"))
+)
 
-(deftest to-regex
-  (is (=
-        ()
-        ""))
-  )

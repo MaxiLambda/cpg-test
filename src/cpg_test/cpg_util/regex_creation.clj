@@ -8,18 +8,6 @@
     "converts a string to the literal pattern"
     [s]
     (-> s Pattern/quote Pattern/compile))
-(defn regex-partial-match
-    "takes a regular expression (as an escaped string) describing a dependency and returns a regex match all sub-paths of this expression"
-    [^String regex]
-    (let [regex2 (str "&" regex "&")
-          parts1 (str/split regex2 #"\\\.")
-          joined1 (str/join "(\\.(" parts1)
-          parts2 (str/split joined1 #"\.\*")
-          joined2 (str/join "(.*(" parts2)
-          closing (reduce str (take (- (* 2 (+ (count parts1) (count parts2))) 3) (repeat ")?")))]
-        (-> (str "(" joined2 closing)
-            (str/replace #"&" "")
-            (str/replace #"\(\)\?" ""))))
 (defn to-regex
     "
     Takes a String of a possible value for class loading, and how to resolve some CallExpression resolutions.
@@ -27,8 +15,8 @@
     The String should only contain [a-Z0-9_${}.] and each { should be paired with } and never nested
     resolution Map<{call},value>
     "
-
     [possibility resolution ]
+    ;TODO filter possibility for endless loops {"{t}" "{t}"} or {"{t}" #{"{t}"}}
     (loop [remainder possibility]
         (if (str/includes? remainder "{")
             (let [opening-index (str/index-of remainder "{")
@@ -42,26 +30,30 @@
                                         ;str/re-quote-replacement is necessary to prevent unexpected behaviour from $
                                         (as-> (map str/re-quote-replacement resolved-res) n
                                               (str/join "|" n)
-                                              (to-regex n resolution)
-                                              ;replace '.' with ',' so it is not handled in the regex-to-partial-match call
-                                              (str/replace n #"\." ","))
+                                              (str "(" n ")")
+                                              (to-regex n resolution))
                                         (str/re-quote-replacement resolved-res))]
                         (recur (str/replace-first remainder call-pattern ready-res)))
                     (recur (str/replace-first remainder call-pattern "!"))))
             (-> remainder
                 (str/replace #"[$.]" "\\\\$0")
                 (str/replace #"!" ".*")
-                (regex-partial-match)
-                (str/replace #"," "\\\\.")
                 ;this function is used for debugging only
                 ;((fn [s] (do
                 ;             (prn s)
                 ;             s)))
                 )))
     )
-(defn finish-regex "" [possibility resolution ]
+(defn finish-regex
+    "
+    Adds '^' and '$' to the regex String and compiles it into a regex-Pattern
+    "
+    [possibility resolution ]
     (-> (to-regex possibility resolution)
         (enclose)
+        ((fn [s] (do
+                     (prn s)
+                     s)))
         (Pattern/compile)))
 (defn possible-loads-to-predicate
     "
