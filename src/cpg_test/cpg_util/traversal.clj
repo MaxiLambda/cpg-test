@@ -16,9 +16,6 @@
            depth 0
            visited #{}]
         (do
-            ;(prn "To-Do:" (count to-do-nodes) to-do-nodes)
-            ;(prn "Result:" (count result) result)
-            ;(prn "Visited:" (count visited) visited)
             (let [[current & remaining] to-do-nodes]
                 ;check if max-depth is reached or if there are no more nodes left to visit
                 (if (or (= depth max-depth) (empty? to-do-nodes))
