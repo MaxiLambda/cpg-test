@@ -4,5 +4,4 @@
 
 @echo off
 cd %1
-@REM todo maybe add -Dtransitive
-mvn dependency:list-classes -Dartifact="%2"
+mvn dependency:list-classes -Dartifact="%2" -Dtransitive
