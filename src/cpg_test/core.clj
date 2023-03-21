@@ -6,17 +6,18 @@
 (defn print-unused "prints unused dependencies" [unused]
     (do
         (prn "Unused Dependencies:")
-        (newline)
         (prn unused)))
-(defn -main []
+(defn start
+    "actual -main method"
+    [^String file jar-paths]
     (do
-        (let [file "C:\\Users\\Maxi\\IdeaProjects\\MavenDepend"
-              may-be-loaded? (analyse file)]
-            (->> (potentially-unused-dependencies file)
-                 (filter #(->> %
-                              (val)
-                              (not-any? may-be-loaded?)))
-                 (map key)
-                 (prn)))
-        (shutdown-agents))
-)
+        (->> (potentially-unused-dependencies file)
+             (filter #(->> %
+                           (val)
+                           (not-any? (analyse file))))
+             (map key)
+             (print-unused))
+        (shutdown-agents)))
+
+(defn -main []
+    (start "C:\\Users\\Maxi\\IdeaProjects\\MavenDepend" []))
