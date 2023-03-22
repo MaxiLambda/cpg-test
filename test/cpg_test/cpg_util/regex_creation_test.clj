@@ -9,7 +9,6 @@
 (is (= (to-regex "a.{test}.c" {"{test}" "b"}) "a\\.b\\.c"))
 (is (= (to-regex "{test}" {}) ".*"))
 (is (= (to-regex "{test}" {"{test}" "{test2}" "{test2}" "abc"}) "abc"))
-;TODO
-;(is (= (to-regex "{test}" {"{test}" "{test}"}) ".*"))
+(is (= (to-regex "a{test}" {"{test}" "{test}"}) "a.*"))
 )
 

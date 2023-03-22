@@ -15,8 +15,7 @@
     The String should only contain [a-Z0-9_${}.] and each { should be paired with } and never nested
     resolution Map<{call},value>
     "
-    [possibility resolution ]
-    ;TODO filter possibility for endless loops {"{t}" "{t}"} or {"{t}" #{"{t}"}}
+    [possibility resolution]
     (loop [remainder possibility]
         (if (str/includes? remainder "{")
             (let [opening-index (str/index-of remainder "{")
@@ -25,14 +24,17 @@
                   call-pattern (string-to-pattern call)]
                 (if (contains? resolution call)
                     (let [resolved-res (get resolution call)
+                          call-regex (str/re-quote-replacement call)
                           ready-res (if (instance? Set resolved-res)
+                                        ;if a resolution value is recursive, replace it with an unknown value (here !)
                                         ;if the resolution value is a set, turn the set in its own regular expression
                                         ;str/re-quote-replacement is necessary to prevent unexpected behaviour from $
-                                        (as-> (map str/re-quote-replacement resolved-res) n
+                                        (as-> (str/replace resolved-res call-regex "!") n
+                                              (map str/re-quote-replacement n)
                                               (str/join "|" n)
                                               (str "(" n ")")
                                               (to-regex n resolution))
-                                        (str/re-quote-replacement resolved-res))]
+                                        (str/re-quote-replacement (str/replace resolved-res call-regex "!")))]
                         (recur (str/replace-first remainder call-pattern ready-res)))
                     (recur (str/replace-first remainder call-pattern "!"))))
             (-> remainder
@@ -45,10 +47,8 @@
                 )))
     )
 (defn finish-regex
-    "
-    Adds '^' and '$' to the regex String and compiles it into a regex-Pattern
-    "
-    [possibility resolution ]
+    "Adds '^' and '$' to the regex String and compiles it into a regex-Pattern"
+    [possibility resolution]
     (-> (to-regex possibility resolution)
         (enclose)
         ((fn [s] (do
