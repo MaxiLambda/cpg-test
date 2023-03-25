@@ -2,9 +2,6 @@
     (:require [clojure.string :as str])
     (:import (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression MemberCallExpression StaticCallExpression)))
 
-;todo
-(defn is-external-sink? "checks if a CallExpression is an external sink" [^CallExpression sink]
-    false)
 (def class-for-name "java.lang.Class.forName")
 
 (defn is-for-name-call?
@@ -24,6 +21,9 @@
             (str/ends-with? fqn load-class-function-name)
             (instance? MemberCallExpression call-expression)
             (= 1 (.size (.getSignature call-expression))))))
-
-(defn is-sink? [^CallExpression call-expression]
+(defn is-internal-sink? [^CallExpression call-expression]
     ((some-fn is-for-name-call? is-load-class-call?) call-expression))
+
+(defn is-sink? "external patterns are the patterns which describe non default sinks"
+    [is-external-sink? ^CallExpression call-expression]
+    ((some-fn is-internal-sink? is-external-sink?) call-expression))

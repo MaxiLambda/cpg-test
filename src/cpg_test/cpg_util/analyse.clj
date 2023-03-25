@@ -1,6 +1,7 @@
 (ns cpg-test.cpg-util.analyse
     (:require [cpg-test.cpg-util.config :refer :all]
               [cpg-test.cpg-util.regex-creation :refer :all]
+              [cpg-test.json-sinks.json-sinks :refer :all]
               [cpg-test.cpg-util.sinks :refer :all]
               [cpg-test.cpg-util.traversal :refer :all]
               [cpg-test.cpg-util.util :refer :all])
@@ -53,21 +54,23 @@
         ;without the vec call the sequence is lazy which leads to a runtime error
         (into {} (filter #(not (nil? (second %1))) (zipmap nodes values)))))
 
+(defn analyse-internal-sink "" [^MultiValueEvaluator evaluator ^CallExpression sink]
+    (as->
+        ;returns single element list because only forName(x) and loadClass(x) have to be considered here
+        (first (.getArguments sink)) n
+        (.evaluate evaluator n)
+        ;is always a Set<String>
+        (if (instance? Set n) n #{n})))
 (defn analyse-args
     "
     Takes a sink and returns a tuple/list of (<Possible classloading Call arguments>) = (HashSet<String>, )
-    Returns a set of strings, which are the possible classloading arguments
+    Returns a set of strings, which are the possible classloading arguments.
+    Only defined for sinks which satisfy is-internal-sink? or is-external-sink?
     "
-    [^MultiValueEvaluator evaluator ^CallExpression sink]
-    (if (is-external-sink? sink)
-        #{}    ;todo
-        (as->
-            ;returns single element list because only forName(x) and loadClass(x) have to be considered here
-            (first (.getArguments sink)) n
-            (.evaluate evaluator n)
-            ;is always a Set<String>
-            (if (instance? Set n) n #{n}))))
-
+    [json-sink-config ^MultiValueEvaluator evaluator ^CallExpression sink]
+    (if (is-internal-sink? sink)
+        (analyse-internal-sink evaluator sink)
+        (analyse-external-sink json-sink-config evaluator sink)))
 
 ;when defined, remember to remove old HashCode from CallExpression Name (which was added in the rename operation)
 ;when evaluating
@@ -76,20 +79,20 @@
     Analyses a given Sink (CallExpression).
     Returns a List<Predicate>.
     "
-    [^MultiValueEvaluator evaluator ^CallExpression sink]
+    [json-sink-config ^MultiValueEvaluator evaluator ^CallExpression sink]
     (do
         (prn "Sink-Name:" (.getFqn sink))
         ;calculate
         (possible-loads-to-predicate
-            (analyse-args evaluator sink)
+            (analyse-args json-sink-config evaluator sink)
             (inter-proc-resolution evaluator sink))))
 
 (defn analyse
     "
-    Entry Point to Analyse example file
+    Entry Point to analyse a project, paths contains the paths to json-sink configurations
     Returns a IFn String -> Bool which evaluates to true if the given string may be dynamically loaded
     by the project under file"
-    [^String file]
+    [^String file paths]
     (let [
           config (get-config file)
           analyzer (get-analyzer config)
@@ -100,9 +103,10 @@
           evaluator (MultiValueEvaluator.)
           nodes (SubgraphWalker/flattenAST applicationNode)
           call-expressions (filter #(instance? CallExpression %) nodes)
-          sinks (filter is-sink? call-expressions)
-          is-possibly-called (reduce-preds-with-or (map (fn [sink] (analyse-sink evaluator sink)) sinks))
-          ]
+          sink-config (get-json-sink-config paths)
+          is-external-sink? (some-fn (:simple-contains? sink-config) (:pattern-contains? sink-config))
+          sinks (filter (partial is-sink? is-external-sink?) call-expressions)
+          is-possibly-called (reduce-preds-with-or (map (fn [sink] (analyse-sink sink-config evaluator sink)) sinks))]
         (do
             ;sinks is evaluated lazily, therefore call it before checking renaming
             ;otherwise the sink-checks with fqn do not work

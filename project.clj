@@ -7,6 +7,8 @@
                    [org.clojure/clojure "1.11.1"]
                    [de.fraunhofer.aisec/cpg-core "5.1.0"]
                    [de.fraunhofer.aisec/cpg-analysis "5.1.0"]
+                   [org.clojure/data.json "2.4.0"]
+                   [org.clojure/math.combinatorics "0.2.0"]
                    ]
     ;TODO add command line parser https://github.com/clojure/tools.cli
     :repl-options {:init-ns cpg-test.core}

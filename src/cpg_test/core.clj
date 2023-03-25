@@ -1,8 +1,8 @@
 (ns cpg-test.core
     (:require
         [cpg-test.cpg-util.analyse :refer :all]
-        [cpg-test.maven-analysis.maven-dependency-analysis :refer [potentially-unused-dependencies]]
-        [cpg-test.local-analysis.local-dependency-analysis :refer [local-dependencies]]))
+        [cpg-test.local-analysis.local-dependency-analysis :refer [local-dependencies]]
+        [cpg-test.maven-analysis.maven-dependency-analysis :refer [potentially-unused-dependencies]]))
 
 (defn print-unused "prints unused dependencies" [unused]
     (do
@@ -26,9 +26,9 @@
 
 (defn start
     "actual -main method"
-    [^String project-root jar-paths]
+    [^String project-root jar-paths external-sink-definitions]
     (do
-        (let [sink-accepts (analyse project-root)
+        (let [sink-accepts (analyse project-root external-sink-definitions)
               unused-deps (pvalues
                               (analyse-maven project-root sink-accepts)
                               (analyse-local jar-paths sink-accepts))]
@@ -41,4 +41,5 @@
 (defn -main []
     (start
         "C:\\Users\\Maxi\\IdeaProjects\\MavenDepend"
-        ["C:\\Users\\Maxi\\IdeaProjects\\MavenDepend\\out"]))
+        ["C:\\Users\\Maxi\\IdeaProjects\\MavenDepend\\out"]
+        ["C:\\Users\\Maxi\\IdeaProjects\\MavenDepend\\sinks.json"]))
