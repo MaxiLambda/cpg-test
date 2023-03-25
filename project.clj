@@ -8,5 +8,6 @@
                    [de.fraunhofer.aisec/cpg-core "5.1.0"]
                    [de.fraunhofer.aisec/cpg-analysis "5.1.0"]
                    ]
+    ;TODO add command line parser https://github.com/clojure/tools.cli
     :repl-options {:init-ns cpg-test.core}
     )
