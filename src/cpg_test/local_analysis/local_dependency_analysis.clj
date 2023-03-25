@@ -1,8 +1,8 @@
 (ns cpg-test.local-analysis.local-dependency-analysis
-    (:require [clojure.java.shell :as sh]
-              [clojure.java.io :as io]
+    (:require [clojure.java.io :as io]
+              [clojure.java.shell :as sh]
               [clojure.string :as str])
-    (:import  (java.io File)))
+    (:import (java.io File)))
 
 (def class-pattern ".class")
 (def jar-pattern #".\.[jw]ar")

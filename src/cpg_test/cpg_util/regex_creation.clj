@@ -30,7 +30,7 @@
                                         ;if the resolution value is a set, turn the set in its own regular expression
                                         ;str/re-quote-replacement is necessary to prevent unexpected behaviour from $
                                         (as-> resolved-res n
-                                            (map #(str/replace % call-regex "!") n)
+                                              (map #(str/replace % call-regex "!") n)
                                               (map str/re-quote-replacement n)
                                               (str/join "|" n)
                                               (str "(" n ")")

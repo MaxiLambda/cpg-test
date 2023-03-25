@@ -1,10 +1,10 @@
 (ns cpg-test.cpg-util.analyse
     (:require [cpg-test.cpg-util.config :refer :all]
               [cpg-test.cpg-util.regex-creation :refer :all]
-              [cpg-test.json-sinks.json-sinks :refer :all]
               [cpg-test.cpg-util.sinks :refer :all]
               [cpg-test.cpg-util.traversal :refer :all]
-              [cpg-test.cpg-util.util :refer :all])
+              [cpg-test.cpg-util.util :refer :all]
+              [cpg-test.json-sinks.json-sinks :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)

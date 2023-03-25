@@ -57,8 +57,7 @@
          (drop 1)
          (take-while #(not (str/includes? % end-section)))
          (map class-from-output)
-         (map second)
-         )
+         (map second))
     )
 (defn mvn-dependency-list-classes
     "
@@ -67,8 +66,7 @@
     Executes the dependency:list-classes -Dartifact=<groupId:artifactId:version> goal.
     "
     [^String path dependency]
-    (strip-mvn-dependency-list (:out (sh/sh "resources/scripts/maven-dependency-list-classes.bat" path dependency)))
-    )
+    (strip-mvn-dependency-list (:out (sh/sh "resources/scripts/maven-dependency-list-classes.bat" path dependency))))
 
 (defn potentially-unused-dependencies
     "
