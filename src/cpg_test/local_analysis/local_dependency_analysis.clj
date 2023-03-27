@@ -14,7 +14,7 @@
          (filter #(.isDirectory %))
          (map file-seq)
          (flatten)
-         (filter #(not (nil? (re-find jar-pattern (.getName ^File %)))))))
+         (filter #(some? (re-find jar-pattern (.getName ^File %))))))
 
 (defn filter-jar-output
     "filters the output of a 'jar tf ...' command for class files"

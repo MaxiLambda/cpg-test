@@ -17,7 +17,7 @@
     [^CallExpression call-expression]
     (let [fqn (.getFqn call-expression)]
         (and
-            (not (nil? fqn))
+            (some? fqn)
             (str/ends-with? fqn load-class-function-name)
             (instance? MemberCallExpression call-expression)
             (= 1 (.size (.getSignature call-expression))))))

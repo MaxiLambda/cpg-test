@@ -6,13 +6,6 @@
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
              (java.util Set)))
 
-(defn filter-nil
-    "Filters nil values.
-    If no sets are passed an empty set is returned"
-    [sets]
-    (->> (filter some? sets)
-         (#(if (nil? %) {} %))))
-
 (defn simple-map
     "a mapper function for maps-to-map-by-name"
     [map]
@@ -31,8 +24,8 @@
     [paths]
     (let [sinks (->> (map slurp paths)
                      (map json/read-str))
-          simple (filter-nil (flatten (map #(get % "simple") sinks)))
-          pattern (filter-nil (flatten (map #(get % "pattern") sinks)))
+          simple (filter some? (flatten (map #(get % "simple") sinks)))
+          pattern (filter some? (flatten (map #(get % "pattern") sinks)))
           simple-res (maps-to-map-by-name simple simple-map)
           pattern-res (maps-to-map-by-name pattern pattern-map)]
         {:simple            simple-res

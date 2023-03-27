@@ -52,7 +52,7 @@
           nodes (map #(str "{" (.getName %1) "}") relevant)
           values (map #(resolve-node evaluator %1) relevant)]
         ;without the vec call the sequence is lazy which leads to a runtime error
-        (into {} (filter #(not (nil? (second %1))) (zipmap nodes values)))))
+        (into {} (filter #(some? (second %1)) (zipmap nodes values)))))
 
 (defn analyse-internal-sink "" [^MultiValueEvaluator evaluator ^CallExpression sink]
     (as->
