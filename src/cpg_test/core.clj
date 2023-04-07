@@ -1,6 +1,8 @@
 (ns cpg-test.core
     (:require
+        [clojure.tools.cli :as prs]
         [cpg-test.cpg-util.analyse :refer :all]
+        [cpg-test.cli :refer [cli-options]]
         [cpg-test.local-analysis.local-dependency-analysis :refer [local-dependencies]]
         [cpg-test.maven-analysis.maven-dependency-analysis :refer [potentially-unused-dependencies]]))
 
@@ -38,8 +40,15 @@
             (print-unused (second unused-deps)))
         (shutdown-agents)))
 
-(defn -main []
-    (start
-        "C:\\Users\\Maxi\\IdeaProjects\\MavenDepend"
-        ["C:\\Users\\Maxi\\IdeaProjects\\MavenDepend\\out"]
-        ["C:\\Users\\Maxi\\IdeaProjects\\MavenDepend\\sinks.json"]))
+;example configuration
+;-r C:\Users\Maxi\IdeaProjects\MavenDepend -j C:\Users\Maxi\IdeaProjects\MavenDepend\out -s C:\Users\Maxi\IdeaProjects\MavenDepend\sinks.json
+(defn -main [& args]
+    (let [{options :options
+           summary :summary
+           help    :help
+           errors  :errors} (prs/parse-opts args cli-options)]
+        (if help
+            (prn summary)
+            (if errors
+                (prn errors)
+                (start (get options "project-root") (get options "jar-paths") (get options "external-sinks"))))))
