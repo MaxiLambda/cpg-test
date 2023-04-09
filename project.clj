@@ -5,8 +5,8 @@
               :url  "https://www.eclipse.org/legal/epl-2.0/"}
     :dependencies [
                    [org.clojure/clojure "1.11.1"]
-                   [de.fraunhofer.aisec/cpg-core "5.1.0"]
-                   [de.fraunhofer.aisec/cpg-analysis "5.1.0"]
+                   [de.fraunhofer.aisec/cpg-core "6.2.1"]
+                   [de.fraunhofer.aisec/cpg-analysis "6.2.1"]
                    [org.clojure/data.json "2.4.0"]
                    [org.clojure/math.combinatorics "0.2.0"]
                    [org.clojure/tools.cli "1.0.214"]
