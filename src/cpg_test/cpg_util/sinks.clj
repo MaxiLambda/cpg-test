@@ -1,6 +1,6 @@
 (ns cpg-test.cpg-util.sinks
     (:require [clojure.string :as str])
-    (:import (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression MemberCallExpression StaticCallExpression)))
+    (:import (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression MemberCallExpression)))
 
 (def class-for-name "java.lang.Class.forName")
 
@@ -9,7 +9,8 @@
     [^CallExpression call-expression]
     (and
         (= class-for-name (.getFqn call-expression))
-        (instance? StaticCallExpression call-expression)))
+        (instance? MemberCallExpression call-expression)
+        (.isStatic ^MemberCallExpression call-expression)))
 
 (def load-class-function-name ".loadClass")
 (defn is-load-class-call?

@@ -116,7 +116,7 @@
                               (.getAstChildren)
                               (.get 0))
           evaluator (MultiValueEvaluator.)
-          nodes (SubgraphWalker/flattenAST applicationNode)
+          nodes (.flattenAST (SubgraphWalker/INSTANCE) applicationNode)
           call-expressions (filter #(instance? CallExpression %) nodes)
           sink-config (get-json-sink-config paths)
           is-external-sink? (some-fn (:simple-contains? sink-config) (:pattern-contains? sink-config))
