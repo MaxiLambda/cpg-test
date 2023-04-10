@@ -81,7 +81,7 @@
     "
     [json-sink-config ^MultiValueEvaluator evaluator ^CallExpression sink]
     (do
-        (prn "Sink-Name:" (.getFqn sink))
+        (println "Sink-Name:" (.getFqn sink))
         ;calculate
         (possible-loads-to-predicate
             (analyse-args json-sink-config evaluator sink)
@@ -110,7 +110,7 @@
         (do
             ;sinks is evaluated lazily, therefore call it before checking renaming
             ;otherwise the sink-checks with fqn do not work
-            (prn "Count sinks:" (count sinks))
+            (println "Count sinks:" (count sinks))
             ;rename CallExpressions
             (doseq [expr call-expressions] (renameCallExpression expr))
             (fn [class] (.test is-possibly-called class)))))

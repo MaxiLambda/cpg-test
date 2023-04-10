@@ -43,7 +43,7 @@
                 (str/replace #"!" ".*")
                 ;this function is used for debugging only
                 ;((fn [s] (do
-                ;             (prn s)
+                ;             (println s)
                 ;             s)))
                 )))
     )
@@ -53,7 +53,7 @@
     (-> (to-regex possibility resolution)
         (enclose)
         ((fn [s] (do
-                     (prn s)
+                     (println s)
                      s)))
         (Pattern/compile)))
 (defn possible-loads-to-predicate

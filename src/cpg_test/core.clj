@@ -2,14 +2,14 @@
     (:require
         [clojure.tools.cli :as prs]
         [cpg-test.cpg-util.analyse :refer :all]
-        [cpg-test.cli :refer [cli-options]]
+        [cpg-test.cli :refer [cli-options help-header]]
         [cpg-test.local-analysis.local-dependency-analysis :refer [local-dependencies]]
         [cpg-test.maven-analysis.maven-dependency-analysis :refer [potentially-unused-dependencies]]))
 
 (defn print-unused "prints unused dependencies" [unused]
     (do
-        (prn "Unused Dependencies:")
-        (prn unused)))
+        (println "Unused Dependencies:")
+        (println unused)))
 
 (defn find-unused "filters possibly unused dependencies, expects Map<String,List<String>>"
     [deps sink-accepts]
@@ -34,21 +34,22 @@
               unused-deps (pvalues
                               (analyse-maven project-root sink-accepts)
                               (analyse-local jar-paths sink-accepts))]
-            (prn "Maven")
+            (println "Maven")
             (print-unused (first unused-deps))
-            (prn "Local")
+            (println "Local")
             (print-unused (second unused-deps)))
         (shutdown-agents)))
 
 ;example configuration
 ;-r C:\Users\Maxi\IdeaProjects\MavenDepend -j C:\Users\Maxi\IdeaProjects\MavenDepend\out -s C:\Users\Maxi\IdeaProjects\MavenDepend\sinks.json
 (defn -main [& args]
-    (let [{options :options
-           summary :summary
-           help    :help
-           errors  :errors} (prs/parse-opts args cli-options)]
+    (let [{:keys [options summary errors]} (prs/parse-opts args cli-options)
+          {:strs [project-root jar-paths external-sinks]} options
+          {help :help} options]
         (if help
-            (prn summary)
+            (do
+                (println help-header)
+                (println summary))
             (if errors
-                (prn errors)
-                (start (get options "project-root") (get options "jar-paths") (get options "external-sinks"))))))
+                (println errors)
+                (start project-root jar-paths external-sinks)))))
