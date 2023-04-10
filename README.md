@@ -1,14 +1,16 @@
 # cpg-test
 
-A Clojure library designed to help to debloat java (<11) projects.
+A Clojure tool designed to help to debloat java (<11) projects.
 
 ## Usage
 
-The following flags and default values are valid
+The following flags and default values are valid:
+```
 -r, --project-root ROOT     .   Project root
 -j, --jar-paths PATHS       []  unmanaged .jar directories, separated by ";"
 -s, --external-sinks SINKS  []  external sink definitions as .json files, separated by ";"
 -h, --help
+```
 
 ### --project-root
 The root directory of the project to analyze, the default value is the current directory
