@@ -1,6 +1,6 @@
 # cpg-test
 
-A Clojure tool designed to help to debloat java (11 and earlier) projects.
+A Clojure tool designed to help to debloat java (11 and earlier) projects using a cpg to detect dynamically loaded classes.
 
 ## Precondition
 
