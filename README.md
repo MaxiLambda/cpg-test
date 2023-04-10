@@ -2,6 +2,10 @@
 
 A Clojure tool designed to help to debloat java (11 and earlier) projects.
 
+## Precondition
+
+To run the tool you have to install the [cdt.core_8.0.0.202211292120](https://www.eclipse.org/downloads/download.php?file=/tools/cdt/releases/11.0/cdt-11.0.0/plugins/org.eclipse.cdt.core_8.0.0.202211292120.jar) dependency in your local maven repository.
+
 ## Usage
 
 The following flags and default values are valid:
