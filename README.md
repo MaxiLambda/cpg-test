@@ -1,6 +1,6 @@
 # cpg-test
 
-A Clojure library designed to help to debloat java (<11) projects.
+A Clojure tool designed to help to debloat java (<11) projects.
 
 ## Usage
 
