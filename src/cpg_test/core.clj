@@ -1,4 +1,5 @@
 (ns cpg-test.core
+    (:gen-class)
     (:require
         [clojure.tools.cli :as prs]
         [cpg-test.cpg-util.analyse :refer :all]
