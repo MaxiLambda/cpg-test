@@ -56,8 +56,18 @@
 
 (defn analyse-internal-sink "" [^MultiValueEvaluator evaluator ^CallExpression sink]
     (as->
-        ;returns single element list because only forName(x) and loadClass(x) have to be considered here
-        (first (.getArguments sink)) n
+        ;returns a list of arguments, only ClassLoader.loadClass and Class.forName have to be considered
+        ;the relevant argument of each call is denoted by x, irrelevant ones by _
+        ;when the function takes 1 or 3 arguments, the first one is relevant
+        ;when the function takes 2 arguments, the second one is relevant
+        ;  ClassLoader.loadClass(x)
+        ;  Class.forName(x)
+        ;  Class.forName(_,x)
+        ;  Class.forName(x,_,_)
+        (.getArguments sink) n
+        (if (not= (count n) 2)
+            (first n)
+            (second n))
         (.evaluate evaluator n)
         ;is always a Set<String>
         (if (instance? Set n) n #{n})))
