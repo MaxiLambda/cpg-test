@@ -7,6 +7,7 @@
               [cpg-test.json-sinks.json-sinks :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
+             (de.fraunhofer.aisec.cpg.graph Node)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.util Set)))
@@ -26,15 +27,19 @@
 ;}
 (defmethod resolve-node CallExpression
     [^MultiValueEvaluator evaluator ^CallExpression expression]
-    ;(CallExpression)-invokes-> (FunctionDeclaration) <- DFG- (ReturnStatement) <- RETURN_VALUE - Expression
-    (->> expression
-         (.getInvokes)
-         (first)
-         (.getPrevDFG)
-         (first)
-         (.getReturnValue)
-         (.evaluate evaluator)))
-
+    (let [invokes (.getInvokes expression)]
+        (if (empty? invokes)
+            ;the Node can't be resolved due to the definition not being part of the analyzed code
+            ;Nodes with external FunctionDeclarations have no invokes Edges
+            ;return a string as if the Evaluator could not gather any information
+            (str "{" (.getName ^Node expression) "}")
+            ;(CallExpression)-invokes-> (FunctionDeclaration) <- DFG- (ReturnStatement) <- RETURN_VALUE - Expression
+            (->> invokes
+                 (first)
+                 (.getPrevDFG)
+                 (first)
+                 (.getReturnValue)
+                 (.evaluate evaluator)))))
 
 (defn dependent-calls
     "Tries to find all CallExpressions that a List of Nodes may rely on.
