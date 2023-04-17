@@ -22,17 +22,15 @@
           newName (str localName "-" (.hashCode ex))]
         (.setName ex (Name. newName parent delimiter))))
 
-(defmulti resolve-node (fn [_ node] (class node)))
-
-;"Tries to resolve the return statement of a CallExpression"
-;the following evaluates to "stuff2" instead of <wildcard> or a hashset
-;public static String other(String s){
-;   if(s.length() > 3){
-;       return "stuff";
-;   }
-;   return "stuff2";
-;}
-(defmethod resolve-node CallExpression
+(defn resolve-node
+    "Tries to resolve the return statement of a CallExpression"
+    ;the following evaluates to "stuff2" instead of <wildcard> or a hashset
+    ;public static String other(String s){
+    ;   if(s.length() > 3){
+    ;       return "stuff";
+    ;   }
+    ;   return "stuff2";
+    ;}
     [^MultiValueEvaluator evaluator ^CallExpression expression]
     (let [invokes (.getInvokes expression)]
         (if (empty? invokes)
