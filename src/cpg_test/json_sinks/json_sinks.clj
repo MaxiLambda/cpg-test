@@ -30,8 +30,8 @@
           pattern-res (maps-to-map-by-name pattern pattern-map)]
         {:simple            simple-res
          :pattern           pattern-res
-         :simple-contains?  #(contains? simple-res (.getFqn %))
-         :pattern-contains? #(contains? pattern-res (.getFqn %))}))
+         :simple-contains?  #(contains? simple-res (.toString (.getName %)))
+         :pattern-contains? #(contains? pattern-res (.toString (.getName %)))}))
 
 
 (defn analyse-external-sink
@@ -47,7 +47,7 @@
            } json-sink-config]
         (if (simple-contains? sink)
             (let [{prefix :prefix
-                   suffix :suffix} (get simple (.getFqn sink))]
+                   suffix :suffix} (get simple (.toString (.getName sink)))]
                 (as->
                     ;returns single element list because only forName(x) and loadClass(x) have to be considered here
                     (first (.getArguments sink)) n
@@ -56,7 +56,7 @@
                     (if (instance? Set n) n #{n})
                     (set (map #(str prefix % suffix) n))))
             ;sink is expected to pass pattern-contains?
-            (let [load-pattern (get pattern (.getFqn sink))]
+            (let [load-pattern (get pattern (.toString (.getName sink)))]
                 (as-> (.getArguments sink) n
                       (map #(.evaluate evaluator %) n)
                       ;turns n into Collection<Set<String>>
