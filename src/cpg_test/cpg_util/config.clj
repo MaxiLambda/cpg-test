@@ -2,12 +2,12 @@
     (:require [cpg-test.cpg-util.regex-creation :refer :all]
               [cpg-test.cpg-util.sinks :refer :all]
               [cpg-test.cpg-util.traversal :refer :all])
-    (:import (de.fraunhofer.aisec.cpg TranslationConfiguration TranslationManager)
+    (:import (de.fraunhofer.aisec.cpg TranslationConfiguration TranslationConfiguration$Builder TranslationManager)
              (java.io File)
              (java.util List)))
 
 (defn get-config [^String file]
-    (-> (TranslationConfiguration/builder)
+    (-> (TranslationConfiguration$Builder.)
         (.sourceLocations (List/of (File. file)))
         (.addIncludesToGraph true)
         (.defaultPasses)
