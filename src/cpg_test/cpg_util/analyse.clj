@@ -9,6 +9,7 @@
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
              (de.fraunhofer.aisec.cpg.graph Name)
              (de.fraunhofer.aisec.cpg.graph Node)
+             (de.fraunhofer.aisec.cpg.graph Name)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.util Set)))
