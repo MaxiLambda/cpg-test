@@ -53,4 +53,9 @@
                 (println summary))
             (if errors
                 (println errors)
-                (start project-root jar-paths external-sinks)))))
+                (do
+                    (println "Starting")
+                    (println "Project-root:" project-root)
+                    (println "External-Jars:" jar-paths)
+                    (println "Sink definitions:" external-sinks)
+                    (start project-root jar-paths external-sinks))))))
