@@ -7,12 +7,18 @@
               [cpg-test.json-sinks.json-sinks :refer :all])
     (:import (de.fraunhofer.aisec.cpg TranslationResult)
              (de.fraunhofer.aisec.cpg.analysis MultiValueEvaluator)
+             (de.fraunhofer.aisec.cpg.graph Name)
              (de.fraunhofer.aisec.cpg.graph.statements.expressions CallExpression)
              (de.fraunhofer.aisec.cpg.helpers SubgraphWalker)
              (java.util Set)))
 
 (defn renameCallExpression "Renames a given CallExpression" [^CallExpression ex]
-    (.setName ex (str (.getName ex) "-" (.hashCode ex))))
+    (let [name (.getName ex)
+          localName (.getLocalName name)
+          parent (.getParent name)
+          delimiter (.getDelimiter name)
+          newName (str localName "-" (.hashCode ex))]
+        (.setName ex (Name. newName parent delimiter))))
 
 (defmulti resolve-node (fn [_ node] (class node)))
 
@@ -49,7 +55,7 @@
     (let [args (.getArguments sink)
           dependent (dependent-calls args)
           relevant (filter #(instance? CallExpression %1) (distinct (concat dependent args)))
-          nodes (map #(str "{" (.getName %1) "}") relevant)
+          nodes (map #(str "{" (.toString (.getName %1)) "}") relevant)
           values (map #(resolve-node evaluator %1) relevant)]
         ;without the vec call the sequence is lazy which leads to a runtime error
         (into {} (filter #(some? (second %1)) (zipmap nodes values)))))
@@ -81,7 +87,7 @@
     "
     [json-sink-config ^MultiValueEvaluator evaluator ^CallExpression sink]
     (do
-        (prn "Sink-Name:" (.getFqn sink))
+        (prn "Sink-Name:" (.toString (.getName sink)))
         ;calculate
         (possible-loads-to-predicate
             (analyse-args json-sink-config evaluator sink)
