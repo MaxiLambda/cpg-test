@@ -49,7 +49,8 @@
             (let [{prefix :prefix
                    suffix :suffix} (get simple (.toString (.getName sink)))]
                 (as->
-                    ;returns single element list because only forName(x) and loadClass(x) have to be considered here
+                    ;returns single element list
+                    ;because only the first argument of a simple-sink is relevant
                     (first (.getArguments sink)) n
                     (.evaluate evaluator n)
                     ;turns n into Set<String>
